@@ -1,28 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineSchool.Books.Dto;
-using OnlineSchool.Books.Models;
-using OnlineSchool.Books.Services.interfaces;
-using OnlineSchool.Students.Controllers.interfaces;
-using OnlineSchool.Students.Dto;
-using OnlineSchool.Students.Models;
-using OnlineSchool.Students.Services.interfaces;
+using OnlineSchool.StudentCards.Controllers.interfaces;
+using OnlineSchool.StudentCards.Dto;
+using OnlineSchool.StudentCards.Models;
+using OnlineSchool.StudentCards.Services.interfaces;
 using OnlineSchool.System.Exceptions;
-using System;
 
-namespace OnlineSchool.Students.Controllers
+namespace OnlineSchool.StudentCardCards.Controllers
 {
-    public class ControllerStudent : ControllerAPIStudent
+    public class ControllerStudentCard : ControllerAPIStudentCard
     {
-        private IQueryServiceStudent _queryService;
-        private ICommandServiceStudent _commandService;
+        private IQueryServiceStudentCard _queryService;
+        private ICommandServiceStudentCard _commandService;
 
-        public ControllerStudent(IQueryServiceStudent queryService, ICommandServiceStudent commandService) 
+        public ControllerStudentCard(IQueryServiceStudentCard queryService, ICommandServiceStudentCard commandService)
         {
             _queryService = queryService;
             _commandService = commandService;
         }
 
-        public override async Task<ActionResult<List<Student>>> GetStudents()
+        public override async Task<ActionResult<List<StudentCard>>> GetStudentCards()
         {
             try
             {
@@ -37,7 +33,7 @@ namespace OnlineSchool.Students.Controllers
             }
         }
 
-        public override async Task<ActionResult<Student>> GetByName([FromQuery] string name)
+        public override async Task<ActionResult<StudentCard>> GetByName([FromQuery] string name)
         {
 
             try
@@ -52,7 +48,7 @@ namespace OnlineSchool.Students.Controllers
 
         }
 
-        public override async Task<ActionResult<Student>> GetById([FromQuery] int id)
+        public override async Task<ActionResult<StudentCard>> GetById([FromQuery] int id)
         {
 
             try
@@ -67,7 +63,7 @@ namespace OnlineSchool.Students.Controllers
 
         }
 
-        public override async Task<ActionResult<Student>> CreateStudent(CreateRequestStudent request)
+        public override async Task<ActionResult<StudentCard>> CreateStudentCard(CreateRequestStudentCard request)
         {
             try
             {
@@ -80,7 +76,7 @@ namespace OnlineSchool.Students.Controllers
             }
         }
 
-        public override async Task<ActionResult<Student>> UpdateStudent([FromQuery] int id, UpdateRequestStudent request)
+        public override async Task<ActionResult<StudentCard>> UpdateStudentCard([FromQuery] int id, UpdateRequestStudentCard request)
         {
             try
             {
@@ -97,7 +93,7 @@ namespace OnlineSchool.Students.Controllers
             }
         }
 
-        public override async Task<ActionResult<Student>> DeleteStudent([FromQuery] int id)
+        public override async Task<ActionResult<StudentCard>> DeleteStudentCard([FromQuery] int id)
         {
             try
             {
@@ -109,7 +105,6 @@ namespace OnlineSchool.Students.Controllers
                 return NotFound(ex.Message);
             }
         }
-
 
     }
 }

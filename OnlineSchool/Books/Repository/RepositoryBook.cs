@@ -73,7 +73,7 @@ namespace OnlineSchool.Books.Repository
             var book = await _context.Books.FindAsync(id);
 
             book.Name = updateRequest.Name ?? book.Name;
-            book.Created_at = updateRequest.Created_at ?? book.Created_at;
+            book.Created = updateRequest.Created_at ?? book.Created;
             book.IdStudent = updateRequest.IdStudent ?? book.IdStudent;
 
             _context.Books.Update(book);

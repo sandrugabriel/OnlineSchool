@@ -7,6 +7,7 @@
         public const string ItemsDoNotExist = "These are not apartaments.";
         public const string Item_Alredy_Exist = "This item alredy exist.";
         public const string InvalidName = "The name is invalid.";
-
+        public const string InvalidCardName = "The card name is invalid.";
+        public const string InvalidDate = "The date is invalid.";
     }
 }

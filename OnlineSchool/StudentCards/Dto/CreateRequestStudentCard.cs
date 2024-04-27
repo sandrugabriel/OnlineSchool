@@ -4,6 +4,6 @@
     {
           public int IdStudent {  get; set; }
 
-          public string Card_number {  get; set; }
+          public string Namecard {  get; set; }
     }
 }

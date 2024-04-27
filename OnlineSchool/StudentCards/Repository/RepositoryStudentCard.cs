@@ -72,7 +72,7 @@ namespace OnlineSchool.StudentCards.Repository
         {
             var studentCard = await _context.StudentCards.FindAsync(id);
 
-            studentCard.Namecard = updateRequest.Card_number ?? studentCard.Namecard;
+            studentCard.Namecard = updateRequest.Namecard ?? studentCard.Namecard;
             studentCard.IdStudent = updateRequest.IdStudent ?? studentCard.IdStudent;
 
             _context.StudentCards.Update(studentCard);

@@ -27,7 +27,7 @@ namespace OnlineSchool.Data
         {
             modelBuilder.Entity<StudentCard>()
                 .HasOne(studentcard => studentcard.Student)
-                .WithOne(student=>student.StudentCard)
+                .WithOne(student => student.StudentCard)
                 .HasForeignKey<StudentCard>(sc => sc.IdStudent);
 
             modelBuilder.Entity<Book>()

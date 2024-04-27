@@ -19,7 +19,7 @@ namespace OnlineSchool.StudentCardCards.Services
         public async Task<StudentCard> Create(CreateRequestStudentCard request)
         {
 
-            if (request.Card_number.Length <= 0)
+            if (request.Namecard.Length <= 0)
             {
                 throw new InvalidCardNume(Constants.InvalidCardName);
             }

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OnlineSchool.Books.Models;
+using OnlineSchool.Enrolments.Models;
+using OnlineSchool.StudentCards.Models;
 
 namespace OnlineSchool.Students.Models
 {
@@ -9,18 +11,17 @@ namespace OnlineSchool.Students.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         [Required]
-
-
         public string Name { get; set; }
-        [Required]
 
+        [Required]
         public string Email { get; set; }
-        [Required]
 
+        [Required]
         public int Age { get; set; }
 
-        public string description()
+     /*   public string description()
         {
             string t = "";
             t += "Id: " + Id + "\n";
@@ -29,9 +30,11 @@ namespace OnlineSchool.Students.Models
             t += "Age: " + Age + "\n";
 
             return t;
-        }
+        }*/
 
-        public virtual List<Book> studentBooks { get; set; }
+        public virtual StudentCard StudentCard { get; set; }
+        public virtual List<Book> StudentBooks { get; set; }
+        public virtual List<Enrolment> Enrolments { get; set; }
 
 
     }

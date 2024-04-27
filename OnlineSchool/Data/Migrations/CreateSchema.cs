@@ -2,23 +2,39 @@
 
 namespace OnlineSchool.Data.Migrations
 {
-    [Migration(1342)]
+    [Migration(13442)]
     public class CreateSchema : Migration
     {
         public override void Up()
         {
+
             Create.Table("students")
-                .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                .WithColumn("name").AsString().NotNullable()
-                .WithColumn("email").AsString().NotNullable()
-                .WithColumn("age").AsInt32().NotNullable();
+                .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+                .WithColumn("Name").AsString().NotNullable()
+                .WithColumn("Email").AsString().NotNullable()
+                .WithColumn("Age").AsInt32().NotNullable();
 
             Create.Table("books")
-                .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                .WithColumn("idStudent").AsInt32().NotNullable()
-                .WithColumn("name").AsString().NotNullable()
-                .WithColumn("created").AsDate().NotNullable();
+                .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+                .WithColumn("IdStudent").AsInt32().NotNullable()
+                .WithColumn("Name").AsString().NotNullable()
+                .WithColumn("Created").AsDate().NotNullable();
 
+            Create.Table("studentcards")
+              .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+              .WithColumn("IdStudent").AsInt32().NotNullable()
+              .WithColumn("Namecard").AsString().NotNullable();
+
+            Create.Table("courses")
+                .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+                .WithColumn("Name").AsString().NotNullable()
+                .WithColumn("Department").AsString().NotNullable();
+
+            Create.Table("enrolments")
+              .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+              .WithColumn("IdCourse").AsInt32().NotNullable()
+              .WithColumn("IdStudent").AsInt32().NotNullable()
+              .WithColumn("Created").AsDateTime().NotNullable();
 
         }
         public override void Down()

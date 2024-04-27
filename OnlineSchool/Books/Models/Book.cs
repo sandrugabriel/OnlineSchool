@@ -21,7 +21,7 @@ namespace OnlineSchool.Books.Models
         public string Name { get; set; }
 
         [Required]
-        public DateTime Created_at { get; set; }
+        public DateTime Created { get; set; }
 
         public string description()
         {
@@ -29,7 +29,7 @@ namespace OnlineSchool.Books.Models
             t += "Id: " + Id + "\n";
             t += $"IdStudent: {IdStudent} \n";
             t += $"Name: {Name} \n";
-            t += $"Created_at: {Created_at.ToString("dd.mm.yyyy")} \n";
+            t += $"Created_at: {Created.ToString("dd.mm.yyyy")} \n";
 
             return t;
         }

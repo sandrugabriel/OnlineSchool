@@ -2,7 +2,7 @@
 
 namespace OnlineSchool.Data.Migrations
 {
-    [Migration(21032024)]
+    [Migration(214032024)]
     public class Test : Migration
     {
         public override void Up()

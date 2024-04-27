@@ -7,7 +7,7 @@ using OnlineSchool.System.Exceptions;
 
 namespace OnlineSchool.Books.Controllers
 {
-   /* public class ControllerBook : ControllerAPIBook
+    public class ControllerBook : ControllerAPIBook
     {
 
         private IQueryServiceBook _query;
@@ -112,5 +112,5 @@ namespace OnlineSchool.Books.Controllers
 
 
 
-    }*/
+    }
 }

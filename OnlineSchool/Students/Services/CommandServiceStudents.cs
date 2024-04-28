@@ -1,4 +1,6 @@
-﻿using OnlineSchool.Students.Dto;
+﻿using OnlineSchool.Books.Dto;
+using OnlineSchool.Books.Repository.interfaces;
+using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using OnlineSchool.Students.Repository.interfaces;
 using OnlineSchool.Students.Services.interfaces;
@@ -15,6 +17,24 @@ namespace OnlineSchool.Students.Services
         public CommandServiceStudents(IRepositoryStudent repository)
         {
             _repository = repository;
+        }
+
+        public async Task<Student> CreateBookForStudent(int idStudent,BookCreateDTO createRequestBook)
+        {
+            var student = await _repository.GetByIdAsync(idStudent);
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            if (createRequestBook.Name.Equals(""))
+            {
+                throw new InvalidName(Constants.InvalidName);
+            }
+
+            student = await _repository.CreateBookForStudent(idStudent,createRequestBook);
+
+            return student;
         }
 
         public async Task<Student> Create(CreateRequestStudent request)

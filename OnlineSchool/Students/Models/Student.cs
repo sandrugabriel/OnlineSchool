@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OnlineSchool.Books.Models;
-using OnlineSchool.Enrolments.Models;
-using OnlineSchool.StudentCards.Models;
 
 namespace OnlineSchool.Students.Models
 {
@@ -32,9 +30,7 @@ namespace OnlineSchool.Students.Models
             return t;
         }*/
 
-        public virtual StudentCard StudentCard { get; set; }
         public virtual List<Book> StudentBooks { get; set; }
-        public virtual List<Enrolment> Enrolments { get; set; }
 
 
     }

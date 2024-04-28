@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineSchool.Books.Dto;
 using OnlineSchool.Books.Models;
+using OnlineSchool.Students.Dto;
 
 namespace OnlineSchool.Books.Mappings
 {
@@ -10,6 +11,8 @@ namespace OnlineSchool.Books.Mappings
         public MappingProfileBook()
         {
             CreateMap<CreateRequestBook, Book>();
+
+            CreateMap<BookCreateDTO, Book>();
         }
     }
 }

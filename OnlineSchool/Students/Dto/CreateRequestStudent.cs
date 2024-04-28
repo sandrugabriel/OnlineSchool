@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OnlineSchool.Books.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineSchool.Students.Dto
 {
@@ -9,5 +10,8 @@ namespace OnlineSchool.Students.Dto
         public string Email { get; set; }
 
         public int Age { get; set; }
+
+        public List<BookCreateDTO> MyBooks { get; set; }
+
     }
 }

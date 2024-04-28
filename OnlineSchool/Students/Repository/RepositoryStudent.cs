@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using OnlineSchool.Books.Dto;
+using OnlineSchool.Books.Models;
 using OnlineSchool.Data;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
@@ -22,12 +24,12 @@ namespace OnlineSchool.Students.Repository
 
         public async Task<List<Student>> GetAllAsync()
         {
-            return await _context.Students.ToListAsync();
+            return await _context.Students.Include(s=>s.StudentBooks).ToListAsync();
         }
 
         public async Task<Student> GetByIdAsync(int id)
         {
-            List<Student> students = await _context.Students.ToListAsync();
+            List<Student> students = await _context.Students.Include(s=>s.StudentBooks).ToListAsync();
 
             for (int i = 0; i < students.Count; i++)
             {
@@ -38,7 +40,7 @@ namespace OnlineSchool.Students.Repository
 
         public async Task<Student> GetByNameAsync(string name)
         {
-            List<Student> allStudents = await _context.Students.ToListAsync();
+            List<Student> allStudents = await _context.Students.Include(s => s.StudentBooks).ToListAsync();
 
             for (int i = 0; i < allStudents.Count; i++)
             {
@@ -83,6 +85,46 @@ namespace OnlineSchool.Students.Repository
             var student = await _context.Students.FindAsync(id);
 
             _context.Students.Remove(student);
+
+            await _context.SaveChangesAsync();
+
+            return student;
+        }
+
+        public async Task<Student> CreateBookForStudent(int idStudent, BookCreateDTO createRequestBook)
+        {
+            var student = await _context.Students.FindAsync(idStudent);
+
+
+            Book book = _mapper.Map<Book>(createRequestBook);
+
+            if (student.StudentBooks == null)
+                _context.Entry(student).Collection(s => s.StudentBooks).Load();
+
+            if (student.StudentBooks == null)
+               student.StudentBooks = new List<Book>();
+
+
+            student.StudentBooks.Add(book);
+          //  _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+            return student;
+
+        }
+
+        public async Task<Student> UpdateBookForStudent(int idStudent,int idBook, BookUpdateDTO bookUpdateDTO)
+        {
+            var student = await _context.Students.FindAsync(idStudent);
+
+            var book = await _context.Books.FindAsync(idBook);
+
+            book.Name = bookUpdateDTO.Name ?? book.Name;
+            book.Created = bookUpdateDTO.Created_at ?? book.Created;
+
+            _context.Update(book);
+
+            if (student.StudentBooks == null)
+                _context.Entry(student).Collection(s => s.StudentBooks).Load();
 
             await _context.SaveChangesAsync();
 

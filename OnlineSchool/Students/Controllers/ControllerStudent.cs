@@ -110,6 +110,22 @@ namespace OnlineSchool.Students.Controllers
             }
         }
 
+        public override async Task<ActionResult<Student>> CreateBookForStudent([FromQuery] int idStudent, BookCreateDTO request)
+        {
+            try
+            {
+                var student = await _commandService.CreateBookForStudent(idStudent, request);
 
+                return Ok(student);
+
+            }catch(ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch(InvalidName ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -44,5 +44,9 @@ namespace OnlineSchool.Students.Controllers.interfaces
         public abstract Task<ActionResult<Student>> DeleteStudent([FromQuery] int id);
 
 
+        [HttpPost("createBookForStudent")]
+        [ProducesResponseType(statusCode: 201, type: typeof(Student))]
+        [ProducesResponseType(statusCode: 400, type: typeof(string))]
+        public abstract Task<ActionResult<Student>> CreateBookForStudent([FromQuery]int idStudent,BookCreateDTO request);
     }
 }

@@ -1,4 +1,5 @@
-﻿using OnlineSchool.Students.Dto;
+﻿using OnlineSchool.Books.Dto;
+using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using System;
 
@@ -12,6 +13,7 @@ namespace OnlineSchool.Students.Repository.interfaces
 
         Task<Student> GetByIdAsync(int id);
 
+        Task<Student> CreateBookForStudent(int idStudent, BookCreateDTO createRequestBook);
 
         Task<Student> Create(CreateRequestStudent request);
 

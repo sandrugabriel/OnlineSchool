@@ -4,11 +4,24 @@ using OnlineSchool.Books.Repository;
 using OnlineSchool.Books.Repository.interfaces;
 using OnlineSchool.Books.Services;
 using OnlineSchool.Books.Services.interfaces;
+using OnlineSchool.Courses.Repository;
+using OnlineSchool.Courses.Repository.interfaces;
+using OnlineSchool.Courses.Services;
+using OnlineSchool.Courses.Services.interfaces;
 using OnlineSchool.Data;
+using OnlineSchool.Enrolments.Repository;
+using OnlineSchool.Enrolments.Repository.interfaces;
+using OnlineSchool.Enrolments.Services;
+using OnlineSchool.Enrolments.Services.interfaces;
+using OnlineSchool.StudentCards.Repository;
+using OnlineSchool.StudentCards.Repository.interfaces;
+using OnlineSchool.StudentCards.Services;
+using OnlineSchool.StudentCards.Services.interfaces;
 using OnlineSchool.Students.Repository;
 using OnlineSchool.Students.Repository.interfaces;
 using OnlineSchool.Students.Services;
 using OnlineSchool.Students.Services.interfaces;
+using OnlineSchool.StudentsCard.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +32,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddScoped<IRepositoryStudentCard, RepositoryStudentCard>();
+builder.Services.AddScoped<IQueryServiceStudentCard, QueryServiceStudentCards>();
+
 builder.Services.AddScoped<IRepositoryStudent, RepositoryStudent>();
 builder.Services.AddScoped<IQueryServiceStudent, QueryServiceStudents>();
 builder.Services.AddScoped<ICommandServiceStudent, CommandServiceStudents>();
 
 builder.Services.AddScoped<IRepositoryBook, RepositoryBook>();
 builder.Services.AddScoped<IQueryServiceBook, QueryServiceBook>();
-builder.Services.AddScoped<ICommandServiceBook, CommandServiceBook>();
+
+builder.Services.AddScoped<IRepositoryCourse, RepositoryCourse>();
+builder.Services.AddScoped<IQueryServiceCourse, QueryServiceCourse>();
+builder.Services.AddScoped<ICommandServiceCourse, CommandServiceCourse>();
+
+builder.Services.AddScoped<IRepositoryEnrolment, RepositoryEnrolment>();
+builder.Services.AddScoped<IQueryServiceEnrolment, QueryServiceEnrolment>();
 
 builder.Services.AddDbContext<AppDbContext>(op => op.UseMySql(builder.Configuration.GetConnectionString("Default")!,
     new MySqlServerVersion(new Version(8, 0, 21))));

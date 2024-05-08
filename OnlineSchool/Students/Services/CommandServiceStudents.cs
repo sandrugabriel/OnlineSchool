@@ -1,5 +1,8 @@
-﻿using OnlineSchool.Books.Dto;
+﻿
+using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Repository.interfaces;
+using OnlineSchool.Enrolments.Dto;
+using OnlineSchool.Enrolments.Models;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using OnlineSchool.Students.Repository.interfaces;
@@ -17,24 +20,6 @@ namespace OnlineSchool.Students.Services
         public CommandServiceStudents(IRepositoryStudent repository)
         {
             _repository = repository;
-        }
-
-        public async Task<Student> CreateBookForStudent(int idStudent,BookCreateDTO createRequestBook)
-        {
-            var student = await _repository.GetByIdAsync(idStudent);
-            if (student == null)
-            {
-                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
-            }
-
-            if (createRequestBook.Name.Equals(""))
-            {
-                throw new InvalidName(Constants.InvalidName);
-            }
-
-            student = await _repository.CreateBookForStudent(idStudent,createRequestBook);
-
-            return student;
         }
 
         public async Task<Student> Create(CreateRequestStudent request)
@@ -79,8 +64,121 @@ namespace OnlineSchool.Students.Services
             return student;
         }
 
+        public async Task<Student> CreateBookForStudent(int idStudent,BookCreateDTO createRequestBook)
+        {
+            var student = await _repository.GetByIdAsync(idStudent);
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            if (createRequestBook.Name.Equals(""))
+            {
+                throw new InvalidName(Constants.InvalidName);
+            }
+
+            student = await _repository.CreateBookForStudent(idStudent,createRequestBook);
+
+            return student;
+        }
+
+        public async Task<Student> UpdateBookForStudent(int idStudent, int idBook, BookUpdateDTO bookUpdateDTO)
+        {
+            var student = await _repository.GetByIdAsync(idStudent);
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            var books = student.StudentBooks;
+            var book = (Book)null;
+            for(int i = 0; i < books.Count; i++)
+            {
+                if (books[i].Id == idBook)
+                {
+                    book = books[i];
+                    break;
+                }
+            }
+
+            if (book == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            if (book.Name == null)
+            {
+                throw new InvalidName(Constants.InvalidName);
+            }
+
+            student = await _repository.UpdateBookForStudent(idStudent,idBook, bookUpdateDTO);
+            return student;
+        }
+
+        public async Task<Student> DeleteBookForStudent(int idStudent, int idBook)
+        {
+            var student = await _repository.GetByIdAsync(idStudent);
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            var books = student.StudentBooks;
+            var book = (Book)null;
+            for (int i = 0; i < books.Count; i++)
+            {
+                if (books[i].Id == idBook)
+                {
+                    book = books[i];
+                    break;
+                }
+            }
+
+            if (book == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            student = await _repository.DeleteBookForStudent(idStudent, idBook);
+            return student;
+        }
+
+        public async Task<Student> EnrollmentCourse(int idStudent, CreateRequestEnrolment createRequest)
+        {
+            var student = await _repository.GetByIdAsync(idStudent);
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            student = await _repository.EnrollmentCourse(idStudent, createRequest);
+
+            if (student == null)
+            {
+                throw new InvalidCourse(Constants.InvalidCourse);
+            }
 
 
+            return student;
+        }
 
+        public async Task<Student> UnEnrollmentCourse(int idStudent, int idCourse)
+        {
+            var student = await _repository.GetByIdAsync(idStudent);
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            student = await _repository.UnEnrollmentCourse(idStudent, idCourse);
+
+            if (student == null)
+            {
+                throw new ItemsDoNotExist(Constants.ItemDoesNotExist);
+            }
+
+
+            return student;
+        }
     }
 }

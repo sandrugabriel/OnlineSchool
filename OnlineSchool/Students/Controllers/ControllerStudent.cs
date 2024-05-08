@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineSchool.Books.Dto;
 using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Services.interfaces;
+using OnlineSchool.Enrolments.Dto;
+using OnlineSchool.StudentCards.Models;
 using OnlineSchool.Students.Controllers.interfaces;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
@@ -58,6 +59,21 @@ namespace OnlineSchool.Students.Controllers
             try
             {
                 var student = await _queryService.GetById(id);
+                return Ok(student);
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+        }
+
+        public override async Task<ActionResult<StudentCard>> GetStudentCard([FromQuery] int id)
+        {
+
+            try
+            {
+                var student = await _queryService.CardById(id);
                 return Ok(student);
             }
             catch (ItemDoesNotExist ex)
@@ -125,6 +141,75 @@ namespace OnlineSchool.Students.Controllers
             catch(InvalidName ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<Student>> UpdateBookForStudent([FromQuery] int idStudent, [FromQuery] int idBook, BookUpdateDTO request)
+        {
+            try
+            {
+                var student = await _commandService.UpdateBookForStudent(idStudent,idBook, request);
+
+                return Ok(student);
+
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidName ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<Student>> DeleteBookForStudent([FromQuery] int idStudent, [FromQuery] int idBook)
+        {
+            try
+            {
+                var student = await _commandService.DeleteBookForStudent(idStudent, idBook);
+
+                return Ok(student);
+
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<Student>> EnrollmentCourse([FromQuery] int idStudent, CreateRequestEnrolment request)
+        {
+
+            try
+            {
+                var student = await _commandService.EnrollmentCourse(idStudent, request);
+
+                return Ok(student);
+
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidCourse ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        public override async Task<ActionResult<Student>> UnEnrollmentCourse([FromQuery] int idStudent, [FromQuery] int idCourse)
+        {
+            try
+            {
+                var student = await _commandService.UnEnrollmentCourse(idStudent, idCourse);
+
+                return Ok(student);
+
+            }
+            catch (ItemDoesNotExist ex)
+            {
+                return NotFound(ex.Message);
             }
         }
     }

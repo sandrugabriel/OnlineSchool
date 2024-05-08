@@ -11,7 +11,5 @@ namespace OnlineSchool.Students.Dto
 
         public int Age { get; set; }
 
-        public List<BookCreateDTO> MyBooks { get; set; }
-
     }
 }

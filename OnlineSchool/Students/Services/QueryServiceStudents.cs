@@ -1,4 +1,5 @@
-﻿using OnlineSchool.Students.Models;
+﻿using OnlineSchool.StudentCards.Models;
+using OnlineSchool.Students.Models;
 using OnlineSchool.Students.Repository.interfaces;
 using OnlineSchool.Students.Services.interfaces;
 using OnlineSchool.System.Constants;
@@ -52,6 +53,17 @@ namespace OnlineSchool.Students.Services
             return student;
         }
 
+        public async Task<StudentCard> CardById(int id)
+        {
+            var student = await _repository.CardByIdAsync(id);
+
+            if (student == null)
+            {
+                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+            }
+
+            return student;
+        }
 
     }
 

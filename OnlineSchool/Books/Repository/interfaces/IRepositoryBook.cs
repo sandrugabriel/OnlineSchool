@@ -1,4 +1,4 @@
-﻿using OnlineSchool.Books.Dto;
+﻿
 using OnlineSchool.Books.Models;
 
 namespace OnlineSchool.Books.Repository.interfaces
@@ -11,12 +11,6 @@ namespace OnlineSchool.Books.Repository.interfaces
         Task<Book> GetByIdAsync(int id);
 
         Task<Book> GetByNameAsync(string name);
-
-        Task<Book> Create(CreateRequestBook createRequest);
-
-        Task<Book> Update(int id, UpdateRequestBook updateRequest);
-
-        Task<Book> DeleteByIdAsync(int id);
 
     }
 }

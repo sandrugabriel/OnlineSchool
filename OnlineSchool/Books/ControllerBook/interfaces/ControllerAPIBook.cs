@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineSchool.Books.Dto;
 using OnlineSchool.Books.Models;
 
 namespace OnlineSchool.Books.Controllers.interfaces
@@ -24,25 +23,6 @@ namespace OnlineSchool.Books.Controllers.interfaces
         [ProducesResponseType(statusCode: 200, type: typeof(Book))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
         public abstract Task<ActionResult<Book>> GetByName([FromQuery] string name);
-
-        [HttpPost("createBook")]
-        [ProducesResponseType(statusCode: 201, type: typeof(Book))]
-        [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<Book>> CreateBook(CreateRequestBook createRequest);
-
-
-        [HttpPut("updateBook")]
-        [ProducesResponseType(statusCode: 200, type: typeof(Book))]
-        [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        [ProducesResponseType(statusCode: 404, type: typeof(string))]
-        public abstract Task<ActionResult<Book>> UpdateBook([FromQuery] int id, UpdateRequestBook updateRequest);
-
-
-        [HttpDelete("deleteBook")]
-        [ProducesResponseType(statusCode: 201, type: typeof(Book))]
-        [ProducesResponseType(statusCode: 404, type: typeof(string))]
-        public abstract Task<ActionResult<Book>> DeleteBook([FromQuery] int id);
-
 
 
     }

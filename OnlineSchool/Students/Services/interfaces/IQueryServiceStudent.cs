@@ -1,4 +1,5 @@
-﻿using OnlineSchool.Students.Models;
+﻿using OnlineSchool.StudentCards.Models;
+using OnlineSchool.Students.Models;
 using System;
 
 namespace OnlineSchool.Students.Services.interfaces
@@ -11,5 +12,7 @@ namespace OnlineSchool.Students.Services.interfaces
         Task<Student> GetById(int id);
 
         Task<Student> GetByNameAsync(string name);
+
+        Task<StudentCard> CardById(int id);
     }
 }

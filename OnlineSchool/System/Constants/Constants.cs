@@ -9,5 +9,7 @@
         public const string InvalidName = "The name is invalid.";
         public const string InvalidCardName = "The card name is invalid.";
         public const string InvalidDate = "The date is invalid.";
+        public const string InvalidCourse = "You have already registered for this course.";
+
     }
 }

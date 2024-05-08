@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using OnlineSchool.Books.Dto;
 using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Repository.interfaces;
 using OnlineSchool.Data;
@@ -17,26 +16,6 @@ namespace OnlineSchool.Books.Repository
         {
             _context = context;
             _mapper = mapper;
-        }
-
-        public async Task<Book> Create(CreateRequestBook createRequest)
-        {
-           var books = _mapper.Map<Book>(createRequest);
-            _context.Books.Add(books);
-            await _context.SaveChangesAsync();
-
-            return books;
-        }
-
-        public async Task<Book> DeleteByIdAsync(int id)
-        {
-            var books = await _context.Books.FindAsync(id);
-
-            _context.Books.Remove(books);
-
-            await _context.SaveChangesAsync();
-
-            return books;
         }
 
         public async Task<List<Book>> GetAllAsync()
@@ -68,19 +47,5 @@ namespace OnlineSchool.Books.Repository
             return null;
         }
 
-        public async Task<Book> Update(int id, UpdateRequestBook updateRequest)
-        {
-            var book = await _context.Books.FindAsync(id);
-
-            book.Name = updateRequest.Name ?? book.Name;
-            book.Created = updateRequest.Created_at ?? book.Created;
-            book.IdStudent = updateRequest.IdStudent ?? book.IdStudent;
-
-            _context.Books.Update(book);
-
-            await _context.SaveChangesAsync();
-
-            return book;
-        }
     }
 }

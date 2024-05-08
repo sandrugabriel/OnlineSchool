@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineSchool.Books.Dto;
 using OnlineSchool.Books.Models;
+using OnlineSchool.Enrolments.Dto;
+using OnlineSchool.StudentCards.Models;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using System;
@@ -16,6 +17,11 @@ namespace OnlineSchool.Students.Controllers.interfaces
         [ProducesResponseType(statusCode: 200, type: typeof(List<Student>))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
         public abstract Task<ActionResult<List<Student>>> GetStudents();
+
+        [HttpGet("studentCard")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<Student>))]
+        [ProducesResponseType(statusCode: 400, type: typeof(string))]
+        public abstract Task<ActionResult<StudentCard>> GetStudentCard([FromQuery]int id);
 
         [HttpGet("findById")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
@@ -48,5 +54,28 @@ namespace OnlineSchool.Students.Controllers.interfaces
         [ProducesResponseType(statusCode: 201, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
         public abstract Task<ActionResult<Student>> CreateBookForStudent([FromQuery]int idStudent,BookCreateDTO request);
+
+        [HttpPut("updateBookForStudent")]
+        [ProducesResponseType(statusCode: 200, type: typeof(Student))]
+        [ProducesResponseType(statusCode: 400, type: typeof(string))]
+        [ProducesResponseType(statusCode: 404, type: typeof(string))]
+        public abstract Task<ActionResult<Student>> UpdateBookForStudent([FromQuery] int idStudent, [FromQuery] int idBook, BookUpdateDTO request);
+
+        [HttpDelete("deleteBookForStudent")]
+        [ProducesResponseType(statusCode: 200, type: typeof(Student))]
+        [ProducesResponseType(statusCode: 404, type: typeof(string))]
+        public abstract Task<ActionResult<Student>> DeleteBookForStudent([FromQuery] int idStudent, [FromQuery] int idBook);
+
+        [HttpPost("enrollmentCourse")]
+        [ProducesResponseType(statusCode: 201, type: typeof(Student))]
+        [ProducesResponseType(statusCode: 400, type: typeof(string))]
+        public abstract Task<ActionResult<Student>> EnrollmentCourse([FromQuery] int idStudent, CreateRequestEnrolment request);
+
+        [HttpDelete("unenrollmentCourse")]
+        [ProducesResponseType(statusCode: 200, type: typeof(Student))]
+        [ProducesResponseType(statusCode: 404, type: typeof(string))]
+        public abstract Task<ActionResult<Student>> UnEnrollmentCourse([FromQuery] int idStudent, [FromQuery] int idCourse);
+
+
     }
 }

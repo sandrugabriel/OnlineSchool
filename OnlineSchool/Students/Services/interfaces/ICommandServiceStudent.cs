@@ -1,4 +1,5 @@
-﻿using OnlineSchool.Books.Dto;
+﻿
+using OnlineSchool.Enrolments.Dto;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using System;
@@ -14,5 +15,14 @@ namespace OnlineSchool.Students.Services.interfaces
         Task<Student> Delete(int id);
 
         Task<Student> CreateBookForStudent(int idStudent, BookCreateDTO createRequestBook);
+
+        Task<Student> UpdateBookForStudent(int idStudent, int idBook, BookUpdateDTO bookUpdateDTO);
+
+        Task<Student> DeleteBookForStudent(int idStudent, int idBook);
+
+        Task<Student> EnrollmentCourse(int idStudent, CreateRequestEnrolment createRequest);
+
+        Task<Student> UnEnrollmentCourse(int idStudent, int idCourse);
+
     }
 }

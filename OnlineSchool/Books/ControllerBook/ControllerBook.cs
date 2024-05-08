@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineSchool.Books.Controllers.interfaces;
-using OnlineSchool.Books.Dto;
 using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Services.interfaces;
 using OnlineSchool.System.Exceptions;
@@ -11,12 +10,10 @@ namespace OnlineSchool.Books.Controllers
     {
 
         private IQueryServiceBook _query;
-        private ICommandServiceBook _command;
 
-        public ControllerBook(IQueryServiceBook query, ICommandServiceBook command)
+        public ControllerBook(IQueryServiceBook query)
         {
             _query = query;
-            _command = command;
         }
 
 
@@ -60,57 +57,6 @@ namespace OnlineSchool.Books.Controllers
                 return NotFound(ex.Message);
             }
         }
-
-        public override async Task<ActionResult<Book>> CreateBook(CreateRequestBook createRequest)
-        {
-            try
-            {
-                var book = await _command.Create(createRequest);
-
-                return Ok(book);
-            }
-            catch (InvalidName ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        public override async Task<ActionResult<Book>> UpdateBook([FromQuery] int id, UpdateRequestBook updateRequest)
-        {
-            try
-            {
-                var book = await _command.Update(id, updateRequest);
-
-                return Ok(book);
-            }
-            catch (InvalidName ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (ItemDoesNotExist ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        public override async Task<ActionResult<Book>> DeleteBook([FromQuery] int id)
-        {
-            try
-            {
-                var book = await _command.DeleteByIdAsync(id);
-
-                return Ok(book);
-            }
-            catch (ItemDoesNotExist ex)
-            {
-                return NotFound(ex.Message);
-            }
-
-
-        }
-
-
-
 
     }
 }

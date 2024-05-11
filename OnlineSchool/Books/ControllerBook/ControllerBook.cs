@@ -2,6 +2,7 @@
 using OnlineSchool.Books.Controllers.interfaces;
 using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Services.interfaces;
+using OnlineSchool.System.Constants;
 using OnlineSchool.System.Exceptions;
 
 namespace OnlineSchool.Books.Controllers
@@ -36,6 +37,10 @@ namespace OnlineSchool.Books.Controllers
             {
                 var book = await _query.GetByIdAsync(id);
 
+                if (book == null)
+                {
+                    throw new ItemDoesNotExist(Constants.ItemDoesNotExist); 
+                }
                 return Ok(book);
             }
             catch (ItemDoesNotExist ex)
@@ -49,7 +54,10 @@ namespace OnlineSchool.Books.Controllers
             try
             {
                 var book = await _query.GetByNameAsync(name);
-
+                if (book == null)
+                {
+                    throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+                }
                 return Ok(book);
             }
             catch (ItemDoesNotExist ex)

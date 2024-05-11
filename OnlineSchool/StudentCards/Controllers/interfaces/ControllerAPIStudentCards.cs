@@ -21,7 +21,7 @@ namespace OnlineSchool.StudentCards.Controllers.interfaces
 
         [HttpGet("findByName")]
         [ProducesResponseType(statusCode: 200, type: typeof(StudentCard))]
-        [ProducesResponseType(statusCode: 400, type: typeof(string))]
+        [ProducesResponseType(statusCode: 404, type: typeof(string))]
         public abstract Task<ActionResult<StudentCard>> GetByName([FromQuery] string name);
 
     }

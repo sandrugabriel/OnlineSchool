@@ -35,6 +35,7 @@ namespace OnlineSchool.StudentCards.Services
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
             }
+
             return student;
         }
 

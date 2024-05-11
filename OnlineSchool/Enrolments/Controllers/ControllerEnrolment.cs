@@ -4,6 +4,8 @@ using OnlineSchool.Enrolments.Models;
 using OnlineSchool.Enrolments.Services.interfaces;
 using OnlineSchool.Enrolments.Controllers.interfaces;
 using OnlineSchool.System.Exceptions;
+using OnlineSchool.Students.Models;
+using OnlineSchool.System.Constants;
 
 namespace OnlineSchool.Enrolments.Controllers
 {
@@ -20,9 +22,9 @@ namespace OnlineSchool.Enrolments.Controllers
         {
             try
             {
-                var courses = await _queryService.GetAll();
+                var enromlemts = await _queryService.GetAll();
 
-                return Ok(courses);
+                return Ok(enromlemts);
 
             }
             catch (ItemsDoNotExist ex)
@@ -36,8 +38,12 @@ namespace OnlineSchool.Enrolments.Controllers
 
             try
             {
-                var course = await _queryService.GetById(id);
-                return Ok(course);
+                var enromlemt = await _queryService.GetById(id);
+                if (enromlemt == null)
+                {
+                    throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+                }
+                return Ok(enromlemt);
             }
             catch (ItemDoesNotExist ex)
             {

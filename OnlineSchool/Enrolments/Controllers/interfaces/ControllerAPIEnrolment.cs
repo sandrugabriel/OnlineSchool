@@ -17,7 +17,7 @@ namespace OnlineSchool.Enrolments.Controllers.interfaces
 
         [HttpGet("findById")]
         [ProducesResponseType(statusCode: 200, type: typeof(Enrolment))]
-        [ProducesResponseType(statusCode: 400, type: typeof(string))]
+        [ProducesResponseType(statusCode: 404, type: typeof(string))]
         public abstract Task<ActionResult<Enrolment>> GetById([FromQuery] int id);
 
     }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineSchool.Books.Models;
 using OnlineSchool.StudentCards.Controllers.interfaces;
 using OnlineSchool.StudentCards.Models;
 using OnlineSchool.StudentCards.Services.interfaces;
+using OnlineSchool.System.Constants;
 using OnlineSchool.System.Exceptions;
 
 namespace OnlineSchool.StudentCards.Controllers
@@ -36,6 +38,10 @@ namespace OnlineSchool.StudentCards.Controllers
             try
             {
                 var student = await _queryService.GetByNameAsync(name);
+                if (student == null)
+                {
+                    throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+                }
                 return Ok(student);
             }
             catch (ItemDoesNotExist ex)
@@ -51,6 +57,10 @@ namespace OnlineSchool.StudentCards.Controllers
             try
             {
                 var student = await _queryService.GetById(id);
+                if (student == null)
+                {
+                    throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+                }
                 return Ok(student);
             }
             catch (ItemDoesNotExist ex)

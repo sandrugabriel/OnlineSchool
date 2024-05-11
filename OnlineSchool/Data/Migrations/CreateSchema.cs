@@ -16,7 +16,8 @@ namespace OnlineSchool.Data.Migrations
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("Name").AsString().NotNullable()
                 .WithColumn("Email").AsString().NotNullable()
-                .WithColumn("Age").AsInt32().NotNullable();
+                .WithColumn("Age").AsInt32().NotNullable()
+                .WithColumn("UpdateDate").AsDateTime().Nullable();
 
 
             Create.Table("books")

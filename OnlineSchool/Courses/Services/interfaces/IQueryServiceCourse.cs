@@ -1,5 +1,6 @@
 ﻿
 
+using OnlineSchool.Courses.Dto;
 using OnlineSchool.Courses.Models;
 
 namespace OnlineSchool.Courses.Services.interfaces
@@ -7,10 +8,12 @@ namespace OnlineSchool.Courses.Services.interfaces
     public interface IQueryServiceCourse
     {
 
-        Task<List<Course>> GetAll();
+        Task<List<DtoCourseView>> GetAll();
 
-        Task<Course> GetById(int id);
+        Task<DtoCourseView> GetById(int id);
 
-        Task<Course> GetByNameAsync(string name);
+        Task<DtoCourseView> GetByNameAsync(string name);
+        Task<Course> GetByName(string name);
+
     }
 }

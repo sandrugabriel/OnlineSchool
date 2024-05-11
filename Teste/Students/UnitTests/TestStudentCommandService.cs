@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Test.Students.Helpers;
+using Xunit.Sdk;
 
 namespace Teste.Students.UnitTests
 {
@@ -179,7 +180,7 @@ namespace Teste.Students.UnitTests
             }
             student.StudentBooks.Add(book);
 
-         //   _mock.Setup(repo => repo.Create(It.IsAny<CreateRequestStudent>())).ReturnsAsync(student);
+            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(student);
             _mock.Setup(repo => repo.CreateBookForStudent(It.IsAny<int>(), It.IsAny<BookCreateDTO>())).ReturnsAsync(student);
 
             var result = await _commandService.CreateBookForStudent(1,createRequest);
@@ -206,10 +207,16 @@ namespace Teste.Students.UnitTests
             var student = TestStudentFactory.CreateStudent(1);
 
             Book book = new Book();
+            book.Id = 2;
             book.IdStudent = 2;
             book.Created = DateTime.Now;
             book.Name = "Test";
             _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(student);
+            _mock.Setup(repo => repo.Create(It.IsAny<CreateRequestStudent>())).ReturnsAsync(student);
+
+            student.StudentBooks = new List<Book>();
+
+            student.StudentBooks.Add(book);
 
             var restul = await _commandService.DeleteBookForStudent(1,2);
 

@@ -1,6 +1,7 @@
 ﻿
 using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Repository.interfaces;
+using OnlineSchool.Courses.Models;
 using OnlineSchool.Enrolments.Dto;
 using OnlineSchool.Enrolments.Models;
 using OnlineSchool.Students.Dto;
@@ -37,7 +38,7 @@ namespace OnlineSchool.Students.Services
         public async Task<Student> Update(int id, UpdateRequestStudent request)
         {
 
-            var student = await _repository.GetByIdAsync(id);
+            var student = await _repository.GetById(id);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
@@ -55,7 +56,7 @@ namespace OnlineSchool.Students.Services
         public async Task<Student> Delete(int id)
         {
 
-            var student = await _repository.GetByIdAsync(id);
+            var student = await _repository.GetById(id);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
@@ -66,7 +67,7 @@ namespace OnlineSchool.Students.Services
 
         public async Task<Student> CreateBookForStudent(int idStudent,BookCreateDTO createRequestBook)
         {
-            var student = await _repository.GetByIdAsync(idStudent);
+            var student = await _repository.GetById(idStudent);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
@@ -84,7 +85,7 @@ namespace OnlineSchool.Students.Services
 
         public async Task<Student> UpdateBookForStudent(int idStudent, int idBook, BookUpdateDTO bookUpdateDTO)
         {
-            var student = await _repository.GetByIdAsync(idStudent);
+            var student = await _repository.GetById(idStudent);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
@@ -117,7 +118,7 @@ namespace OnlineSchool.Students.Services
 
         public async Task<Student> DeleteBookForStudent(int idStudent, int idBook)
         {
-            var student = await _repository.GetByIdAsync(idStudent);
+            var student = await _repository.GetById(idStudent);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
@@ -139,19 +140,19 @@ namespace OnlineSchool.Students.Services
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
             }
 
-            student = await _repository.DeleteBookForStudent(idStudent, idBook);
+             await _repository.DeleteBookForStudent(idStudent, idBook);
             return student;
         }
 
-        public async Task<Student> EnrollmentCourse(int idStudent, CreateRequestEnrolment createRequest)
+        public async Task<Student> EnrollmentCourse(int idStudent, Course course)
         {
-            var student = await _repository.GetByIdAsync(idStudent);
+            var student = await _repository.GetById(idStudent);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
             }
 
-            student = await _repository.EnrollmentCourse(idStudent, createRequest);
+            student = await _repository.EnrollmentCourse(idStudent, course);
 
             if (student == null)
             {
@@ -162,15 +163,15 @@ namespace OnlineSchool.Students.Services
             return student;
         }
 
-        public async Task<Student> UnEnrollmentCourse(int idStudent, int idCourse)
+        public async Task<Student> UnEnrollmentCourse(int idStudent, Course course)
         {
-            var student = await _repository.GetByIdAsync(idStudent);
+            var student = await _repository.GetById(idStudent);
             if (student == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
             }
 
-            student = await _repository.UnEnrollmentCourse(idStudent, idCourse);
+            student = await _repository.UnEnrollmentCourse(idStudent, course);
 
             if (student == null)
             {

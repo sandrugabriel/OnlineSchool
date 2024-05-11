@@ -31,7 +31,7 @@ namespace OnlineSchool.Courses.Services
         public async Task<Course> Update(int id, UpdateRequestCourse request)
         {
 
-            var course = await _repository.GetByIdAsync(id);
+            var course = await _repository.GetById(id);
             if (course == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
@@ -49,7 +49,7 @@ namespace OnlineSchool.Courses.Services
         public async Task<Course> Delete(int id)
         {
 
-            var course = await _repository.GetByIdAsync(id);
+            var course = await _repository.GetById(id);
             if (course == null)
             {
                 throw new ItemDoesNotExist(Constants.ItemDoesNotExist);

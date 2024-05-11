@@ -21,6 +21,9 @@ namespace OnlineSchool.Students.Models
         [Required]
         public int Age { get; set; }
 
+        [Required]
+        public DateTime UpdateDate { get; set; }
+
      /*   public string description()
         {
             string t = "";

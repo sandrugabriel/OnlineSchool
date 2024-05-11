@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineSchool.Books.Models;
 using OnlineSchool.Books.Services.interfaces;
+using OnlineSchool.Courses.Models;
+using OnlineSchool.Courses.Services.interfaces;
 using OnlineSchool.Enrolments.Dto;
 using OnlineSchool.StudentCards.Models;
 using OnlineSchool.Students.Controllers.interfaces;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using OnlineSchool.Students.Services.interfaces;
+using OnlineSchool.System.Constants;
 using OnlineSchool.System.Exceptions;
 using System;
+using System.Configuration;
+using System.Xml.Linq;
 
 namespace OnlineSchool.Students.Controllers
 {
@@ -16,14 +21,16 @@ namespace OnlineSchool.Students.Controllers
     {
         private IQueryServiceStudent _queryService;
         private ICommandServiceStudent _commandService;
+        private IQueryServiceCourse _queryServiceCourse;
 
-        public ControllerStudent(IQueryServiceStudent queryService, ICommandServiceStudent commandService) 
+        public ControllerStudent(IQueryServiceStudent queryService, ICommandServiceStudent commandService,IQueryServiceCourse queryServiceCourse) 
         {
             _queryService = queryService;
             _commandService = commandService;
+            _queryServiceCourse = queryServiceCourse;
         }
 
-        public override async Task<ActionResult<List<Student>>> GetStudents()
+        public override async Task<ActionResult<List<DtoStudentView>>> GetStudents()
         {
             try
             {
@@ -53,7 +60,7 @@ namespace OnlineSchool.Students.Controllers
 
         }
 
-        public override async Task<ActionResult<Student>> GetById([FromQuery] int id)
+        public override async Task<ActionResult<DtoStudentView>> GetById([FromQuery] int id)
         {
 
             try
@@ -178,14 +185,22 @@ namespace OnlineSchool.Students.Controllers
             }
         }
 
-        public override async Task<ActionResult<Student>> EnrollmentCourse([FromQuery] int idStudent, CreateRequestEnrolment request)
+        public override async Task<ActionResult<Student>> EnrollmentCourse([FromQuery] int idStudent, [FromQuery] string name)
         {
 
             try
             {
-                var student = await _commandService.EnrollmentCourse(idStudent, request);
+                Course course = await _queryServiceCourse.GetByName(name);
+                if (course == null)
+                {
+                    throw new NotFoundCourse(Constants.NotFoundcourse);
+                }
+                else
+                {
+                    var student = await _commandService.EnrollmentCourse(idStudent, course);
 
-                return Ok(student);
+                    return Ok(student);
+                }
 
             }
             catch (ItemDoesNotExist ex)
@@ -198,19 +213,27 @@ namespace OnlineSchool.Students.Controllers
             }
         }
 
-        public override async Task<ActionResult<Student>> UnEnrollmentCourse([FromQuery] int idStudent, [FromQuery] int idCourse)
+        public override async Task<ActionResult<Student>> UnEnrollmentCourse([FromQuery] int idStudent, [FromQuery] string nameCourse)
         {
             try
             {
-                var student = await _commandService.UnEnrollmentCourse(idStudent, idCourse);
+
+                Course course = await _queryServiceCourse.GetByName(nameCourse);
+
+                var student = await _commandService.UnEnrollmentCourse(idStudent, course);
 
                 return Ok(student);
 
+            }
+            catch(NotFoundCourse ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ItemDoesNotExist ex)
             {
                 return NotFound(ex.Message);
             }
+            
         }
     }
 }

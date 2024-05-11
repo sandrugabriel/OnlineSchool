@@ -7,11 +7,15 @@ namespace OnlineSchool.Courses.Repository.interfaces
 {
     public interface IRepositoryCourse
     {
-        Task<List<Course>> GetAllAsync();
-        Task<Course> GetByNameAsync(string destination);
+        Task<List<DtoCourseView>> GetAllAsync();
 
-        Task<Course> GetByIdAsync(int id);
+        Task<DtoCourseView> GetByNameAsync(string destination);
 
+        Task<Course> GetByName(string destination);
+
+        Task<DtoCourseView> GetByIdAsync(int id);
+
+        Task<Course> GetById(int id);
 
         Task<Course> Create(CreateRequestCourse request);
 

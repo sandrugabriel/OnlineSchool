@@ -18,7 +18,7 @@ namespace OnlineSchool.Courses.Controllers
             _commandService = commandService;
         }
 
-        public override async Task<ActionResult<List<Course>>> GetCourses()
+        public override async Task<ActionResult<List<DtoCourseView>>> GetCourses()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace OnlineSchool.Courses.Controllers
             }
         }
 
-        public override async Task<ActionResult<Course>> GetByName([FromQuery] string name)
+        public override async Task<ActionResult<DtoCourseView>> GetByName([FromQuery] string name)
         {
 
             try
@@ -41,14 +41,14 @@ namespace OnlineSchool.Courses.Controllers
                 var course = await _queryService.GetByNameAsync(name);
                 return Ok(course);
             }
-            catch (ItemDoesNotExist ex)
+            catch (NotFoundCourse ex)
             {
                 return NotFound(ex.Message);
             }
 
         }
 
-        public override async Task<ActionResult<Course>> GetById([FromQuery] int id)
+        public override async Task<ActionResult<DtoCourseView>> GetById([FromQuery] int id)
         {
 
             try

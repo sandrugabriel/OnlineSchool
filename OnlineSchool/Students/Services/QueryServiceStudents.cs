@@ -1,4 +1,5 @@
 ﻿using OnlineSchool.StudentCards.Models;
+using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using OnlineSchool.Students.Repository.interfaces;
 using OnlineSchool.Students.Services.interfaces;
@@ -18,7 +19,7 @@ namespace OnlineSchool.Students.Services
             _repository = repository;
         }
 
-        public async Task<List<Student>> GetAll()
+        public async Task<List<DtoStudentView>> GetAll()
         {
             var student = await _repository.GetAllAsync();
 
@@ -30,7 +31,7 @@ namespace OnlineSchool.Students.Services
             return student;
         }
 
-        public async Task<Student> GetByNameAsync(string name)
+        public async Task<DtoStudentView> GetByNameAsync(string name)
         {
             var student = await _repository.GetByNameAsync(name);
 
@@ -41,7 +42,7 @@ namespace OnlineSchool.Students.Services
             return student;
         }
 
-        public async Task<Student> GetById(int id)
+        public async Task<DtoStudentView> GetById(int id)
         {
             var student = await _repository.GetByIdAsync(id);
 

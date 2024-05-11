@@ -1,4 +1,5 @@
-﻿using OnlineSchool.Courses.Models;
+﻿using OnlineSchool.Courses.Dto;
+using OnlineSchool.Courses.Models;
 using OnlineSchool.Courses.Repository.interfaces;
 using OnlineSchool.Courses.Services.interfaces;
 using OnlineSchool.System.Constants;
@@ -16,7 +17,7 @@ namespace OnlineSchool.Courses.Services
             _repository = repository;
         }
 
-        public async Task<List<Course>> GetAll()
+        public async Task<List<DtoCourseView>> GetAll()
         {
             var course = await _repository.GetAllAsync();
 
@@ -28,18 +29,29 @@ namespace OnlineSchool.Courses.Services
             return course;
         }
 
-        public async Task<Course> GetByNameAsync(string name)
+        public async Task<DtoCourseView> GetByNameAsync(string name)
         {
             var course = await _repository.GetByNameAsync(name);
 
             if (course == null)
             {
-                throw new ItemDoesNotExist(Constants.ItemDoesNotExist);
+                throw new NotFoundCourse(Constants.NotFoundcourse);
             }
             return course;
         }
 
-        public async Task<Course> GetById(int id)
+        public async Task<Course> GetByName(string name)
+        {
+            var course = await _repository.GetByName(name);
+
+            if (course == null)
+            {
+                throw new NotFoundCourse(Constants.NotFoundcourse);
+            }
+            return course;
+        }
+
+        public async Task<DtoCourseView> GetById(int id)
         {
             var course = await _repository.GetByIdAsync(id);
 

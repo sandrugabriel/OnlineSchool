@@ -1,7 +1,7 @@
 ﻿
-INSERT INTO students VALUES (1,'GABI','gabi@gmail.com',17);
-INSERT INTO students VALUES (2,'ana','ana@gmail.com',19);
-INSERT INTO students VALUES (3,'filip','filip@gmail.com',16);
+INSERT INTO students VALUES (1,'GABI','gabi@gmail.com',17,"2024-05-11T18:49:00");
+INSERT INTO students VALUES (2,'ana','ana@gmail.com',19,"2024-05-11T18:49:00");
+INSERT INTO students VALUES (3,'filip','filip@gmail.com',16,"2024-05-11T18:49:00");
 
 INSERT INTO books VALUES(1,2,'test','2024/04/20');
 INSERT INTO books VALUES(2,1,'test1','2024/04/21');

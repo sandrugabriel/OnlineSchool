@@ -13,17 +13,17 @@ namespace OnlineSchool.Courses.Controllers.interfaces
         [HttpGet("all")]
         [ProducesResponseType(statusCode: 200, type: typeof(List<Course>))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<List<Course>>> GetCourses();
+        public abstract Task<ActionResult<List<DtoCourseView>>> GetCourses();
 
         [HttpGet("findById")]
         [ProducesResponseType(statusCode: 200, type: typeof(Course))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<Course>> GetById([FromQuery] int id);
+        public abstract Task<ActionResult<DtoCourseView>> GetById([FromQuery] int id);
 
         [HttpGet("findByName")]
         [ProducesResponseType(statusCode: 200, type: typeof(Course))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<Course>> GetByName([FromQuery] string name);
+        public abstract Task<ActionResult<DtoCourseView>> GetByName([FromQuery] string name);
 
         [HttpPost("createCourse")]
         [ProducesResponseType(statusCode: 201, type: typeof(Course))]

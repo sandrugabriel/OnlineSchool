@@ -1,4 +1,6 @@
-﻿namespace OnlineSchool.System.Constants
+﻿using System.Collections;
+
+namespace OnlineSchool.System.Constants
 {
     public class Constants
     {
@@ -10,6 +12,6 @@
         public const string InvalidCardName = "The card name is invalid.";
         public const string InvalidDate = "The date is invalid.";
         public const string InvalidCourse = "You have already registered for this course.";
-
+        public const string NotFoundcourse = "This course doesn't exist.";
     }
 }

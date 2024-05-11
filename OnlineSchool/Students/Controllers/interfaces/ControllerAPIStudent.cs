@@ -16,7 +16,7 @@ namespace OnlineSchool.Students.Controllers.interfaces
         [HttpGet("all")]
         [ProducesResponseType(statusCode: 200, type: typeof(List<Student>))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<List<Student>>> GetStudents();
+        public abstract Task<ActionResult<List<DtoStudentView>>> GetStudents();
 
         [HttpGet("studentCard")]
         [ProducesResponseType(statusCode: 200, type: typeof(List<Student>))]
@@ -26,7 +26,7 @@ namespace OnlineSchool.Students.Controllers.interfaces
         [HttpGet("findById")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<Student>> GetById([FromQuery] int id);
+        public abstract Task<ActionResult<DtoStudentView>> GetById([FromQuery] int id);
 
         [HttpGet("findByName")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
@@ -69,12 +69,12 @@ namespace OnlineSchool.Students.Controllers.interfaces
         [HttpPost("enrollmentCourse")]
         [ProducesResponseType(statusCode: 201, type: typeof(Student))]
         [ProducesResponseType(statusCode: 400, type: typeof(string))]
-        public abstract Task<ActionResult<Student>> EnrollmentCourse([FromQuery] int idStudent, CreateRequestEnrolment request);
+        public abstract Task<ActionResult<Student>> EnrollmentCourse([FromQuery] int idStudent,[FromQuery]string name);
 
         [HttpDelete("unenrollmentCourse")]
         [ProducesResponseType(statusCode: 200, type: typeof(Student))]
         [ProducesResponseType(statusCode: 404, type: typeof(string))]
-        public abstract Task<ActionResult<Student>> UnEnrollmentCourse([FromQuery] int idStudent, [FromQuery] int idCourse);
+        public abstract Task<ActionResult<Student>> UnEnrollmentCourse([FromQuery] int idStudent, [FromQuery] string name);
 
 
     }

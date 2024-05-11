@@ -1,4 +1,5 @@
 ﻿
+using OnlineSchool.Courses.Models;
 using OnlineSchool.Enrolments.Dto;
 using OnlineSchool.StudentCards.Models;
 using OnlineSchool.Students.Dto;
@@ -10,10 +11,13 @@ namespace OnlineSchool.Students.Repository.interfaces
     public interface IRepositoryStudent
     {
 
-        Task<List<Student>> GetAllAsync();
-        Task<Student> GetByNameAsync(string destination);
+        Task<List<DtoStudentView>> GetAllAsync();
 
-        Task<Student> GetByIdAsync(int id);
+        Task<DtoStudentView> GetByNameAsync(string destination);
+
+        Task<Student> GetById(int id);
+
+        Task<DtoStudentView> GetByIdAsync(int id);
 
         Task<StudentCard> CardByIdAsync(int id);
 
@@ -29,9 +33,9 @@ namespace OnlineSchool.Students.Repository.interfaces
 
         Task<Student> DeleteBookForStudent(int idStudent, int idBook);
 
-        Task<Student> EnrollmentCourse(int idStudent, CreateRequestEnrolment createRequest);
+        Task<Student> EnrollmentCourse(int idStudent, Course course);
 
-        Task<Student> UnEnrollmentCourse(int idStudent, int idCourse);
+        Task<Student> UnEnrollmentCourse(int idStudent, Course course);
 
     }
 }

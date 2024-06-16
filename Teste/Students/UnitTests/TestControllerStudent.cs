@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
+using OnlineSchool.Courses.Services.interfaces;
 using OnlineSchool.Students.Controllers;
 using OnlineSchool.Students.Controllers.interfaces;
 using OnlineSchool.Students.Dto;
@@ -21,14 +22,16 @@ namespace Teste.Students.UnitTests
 
         private readonly Mock<ICommandServiceStudent> _mockCommandService;
         private readonly Mock<IQueryServiceStudent> _mockQueryService;
+        private readonly Mock<IQueryServiceCourse> _mockQueryCourse;
         private readonly ControllerAPIStudent studentApiController;
 
         public TestControllerStudent()
         {
             _mockCommandService = new Mock<ICommandServiceStudent>();
             _mockQueryService = new Mock<IQueryServiceStudent>();
+            _mockQueryCourse = new Mock<IQueryServiceCourse>();
 
-            studentApiController = new ControllerStudent(_mockQueryService.Object, _mockCommandService.Object);
+            studentApiController = new ControllerStudent(_mockQueryService.Object, _mockCommandService.Object,_mockQueryCourse.Object);
         }
 
         [Fact]
@@ -55,7 +58,7 @@ namespace Teste.Students.UnitTests
 
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
 
-            var allStudents = Assert.IsType<List<Student>>(okResult.Value);
+            var allStudents = Assert.IsType<List<DtoStudentView>>(okResult.Value);
 
             Assert.Equal(5, allStudents.Count);
             Assert.Equal(200, okResult.StatusCode);
@@ -94,7 +97,7 @@ namespace Teste.Students.UnitTests
                 Email = "test@gmail.com",
                 Name = "test"
             };
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
             student.Age = createRequest.Age;
             student.Email = createRequest.Email;
             student.Name = createRequest.Name;
@@ -136,7 +139,7 @@ namespace Teste.Students.UnitTests
             };
 
 
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
 
             _mockCommandService.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<UpdateRequestStudent>())).ReturnsAsync(student);
 
@@ -167,7 +170,7 @@ namespace Teste.Students.UnitTests
         public async Task Delete_ValidData()
         {
 
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
 
             _mockCommandService.Setup(repo => repo.Delete(It.IsAny<int>())).ReturnsAsync(student);
 

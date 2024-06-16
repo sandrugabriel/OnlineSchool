@@ -56,7 +56,7 @@ namespace Teste.Courses.UnitTests
 
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
 
-            var allCourses = Assert.IsType<List<Course>>(okResult.Value);
+            var allCourses = Assert.IsType<List<DtoCourseView>>(okResult.Value);
 
             Assert.Equal(5, allCourses.Count);
             Assert.Equal(200, okResult.StatusCode);
@@ -93,7 +93,7 @@ namespace Teste.Courses.UnitTests
                 Department = "test",
                 Name = "test"
             };
-            var course = TestCourseFactory.CreateCourse(1);
+            var course = TestCourseFactory.CreateCourseN(1);
             course.Department = createRequest.Department;
             course.Name = createRequest.Name;
 
@@ -134,7 +134,7 @@ namespace Teste.Courses.UnitTests
             };
 
 
-            var course = TestCourseFactory.CreateCourse(1);
+            var course = TestCourseFactory.CreateCourseN(1);
 
             _mockCommandService.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<UpdateRequestCourse>())).ReturnsAsync(course);
 
@@ -165,7 +165,7 @@ namespace Teste.Courses.UnitTests
         public async Task Delete_ValidData()
         {
 
-            var course = TestCourseFactory.CreateCourse(1);
+            var course = TestCourseFactory.CreateCourseN(1);
 
             _mockCommandService.Setup(repo => repo.Delete(It.IsAny<int>())).ReturnsAsync(course);
 

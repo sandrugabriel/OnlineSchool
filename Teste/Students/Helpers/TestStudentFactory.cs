@@ -1,5 +1,6 @@
 ﻿using OnlineSchool.Books.Models;
 using OnlineSchool.StudentCards.Models;
+using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,26 @@ namespace Test.Students.Helpers
     public class TestStudentFactory
     {
 
-        public static Student CreateStudent(int id)
+        public static DtoStudentView CreateStudent(int id)
         {
-            return new Student
+            return new DtoStudentView
             {
                 Id = id,
                 Age = id,
                 Email = id+"@gmail.com",
                 Name = "test"+id
+
+            };
+        }
+
+        public static Student CreateStudentN(int id)
+        {
+            return new Student
+            {
+                Id = id,
+                Age = id,
+                Email = id + "@gmail.com",
+                Name = "test" + id
 
             };
         }
@@ -48,9 +61,9 @@ namespace Test.Students.Helpers
             };
         }
 
-        public static List<Student> CreateStudents(int cout) {
+        public static List<DtoStudentView> CreateStudents(int cout) {
         
-            List<Student> students = new List<Student>();
+            List<DtoStudentView> students = new List<DtoStudentView>();
 
             for(int i=0; i < cout; i++)
             {

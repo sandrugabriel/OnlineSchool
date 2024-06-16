@@ -1,5 +1,7 @@
 ﻿using Moq;
 using OnlineSchool.Books.Models;
+using OnlineSchool.Courses.Dto;
+using OnlineSchool.Courses.Models;
 using OnlineSchool.Enrolments.Dto;
 using OnlineSchool.Students.Dto;
 using OnlineSchool.Students.Models;
@@ -56,7 +58,7 @@ namespace Teste.Students.UnitTests
                 Name = "test"
             };
 
-            var student = TestStudentFactory.CreateStudent(50);
+            var student = TestStudentFactory.CreateStudentN(50);
             student.Age = createRequest.Age;
 
             _mock.Setup(repo => repo.Create(It.IsAny<CreateRequestStudent>())).ReturnsAsync(student);
@@ -75,7 +77,7 @@ namespace Teste.Students.UnitTests
                 Age = 0
             };
 
-            _mock.Setup(repo => repo.GetByIdAsync(50)).ReturnsAsync((Student)null);
+            _mock.Setup(repo => repo.GetByIdAsync(50)).ReturnsAsync((DtoStudentView)null);
 
             var exception = await Assert.ThrowsAsync<ItemDoesNotExist>(() => _commandService.Update(50, updateRequest));
 
@@ -90,9 +92,9 @@ namespace Teste.Students.UnitTests
                 Age = 0
             };
 
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
             student.Age = updateRequest.Age.Value;
-            _mock.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(student);
+            _mock.Setup(repo => repo.GetById(1)).ReturnsAsync(student);
 
             var exception = await Assert.ThrowsAsync<InvalidAge>(() => _commandService.Update(1, updateRequest));
 
@@ -107,10 +109,10 @@ namespace Teste.Students.UnitTests
                 Age = 18
             };
 
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
             student.Age = updateRequest.Age.Value;
 
-            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(student);
+            _mock.Setup(repo => repo.GetById(It.IsAny<int>())).ReturnsAsync(student);
             _mock.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<UpdateRequestStudent>())).ReturnsAsync(student);
 
             var result = await _commandService.Update(1, updateRequest);
@@ -134,14 +136,13 @@ namespace Teste.Students.UnitTests
         [Fact]
         public async Task Delete_ValidData()
         {
-            var student = TestStudentFactory.CreateStudent(1);
-
-            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(student);
+            var student1 = TestStudentFactory.CreateStudentN(1);
+            _mock.Setup(repo => repo.GetById(It.IsAny<int>())).ReturnsAsync(student1);
 
             var restul = await _commandService.Delete(1);
 
             Assert.NotNull(restul);
-            Assert.Equal(student, restul);
+            Assert.Equal(student1.Name, restul.Name);
         }
 
         [Fact]
@@ -168,7 +169,7 @@ namespace Teste.Students.UnitTests
                 Name = "test"
             };
 
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
 
             Book book = new Book();
             book.IdStudent = student.Id;
@@ -180,7 +181,7 @@ namespace Teste.Students.UnitTests
             }
             student.StudentBooks.Add(book);
 
-            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(student);
+            _mock.Setup(repo => repo.GetById(It.IsAny<int>())).ReturnsAsync(student);
             _mock.Setup(repo => repo.CreateBookForStudent(It.IsAny<int>(), It.IsAny<BookCreateDTO>())).ReturnsAsync(student);
 
             var result = await _commandService.CreateBookForStudent(1,createRequest);
@@ -204,14 +205,14 @@ namespace Teste.Students.UnitTests
         [Fact]
         public async Task DeleteBookForStudent_ValidData()
         {
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
 
             Book book = new Book();
             book.Id = 2;
             book.IdStudent = 2;
             book.Created = DateTime.Now;
             book.Name = "Test";
-            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(student);
+            _mock.Setup(repo => repo.GetById(It.IsAny<int>())).ReturnsAsync(student);
             _mock.Setup(repo => repo.Create(It.IsAny<CreateRequestStudent>())).ReturnsAsync(student);
 
             student.StudentBooks = new List<Book>();
@@ -227,14 +228,11 @@ namespace Teste.Students.UnitTests
         [Fact]
         public async Task EnrollmentCourse_ItemDoesNotExist()
         {
-            var createRequest = new CreateRequestEnrolment
-            {
-               IdCourse = 1,
-               Created = DateTime.Now
-            };
 
-            _mock.Setup(repo => repo.EnrollmentCourse(2, createRequest)).ReturnsAsync((Student)null);
-            Exception exception = await Assert.ThrowsAsync<ItemDoesNotExist>(() => _commandService.EnrollmentCourse(2, createRequest));
+            var couse = new Course() { Department = "test",Name = "test"};
+
+            _mock.Setup(repo => repo.EnrollmentCourse(2, couse)).ReturnsAsync((Student)null);
+            Exception exception = await Assert.ThrowsAsync<ItemDoesNotExist>(() => _commandService.EnrollmentCourse(2, couse));
 
             Assert.Equal(Constants.ItemDoesNotExist, exception.Message);
         }
@@ -243,18 +241,18 @@ namespace Teste.Students.UnitTests
         public async Task EnrollmentCourse_ReturnStudent()
         {
 
-            var createRequest = new CreateRequestEnrolment
+            var course = new Course()
             {
-                IdCourse = 1,
-                Created = DateTime.Now
+               Department = "test",
+               Name = "test"
             };
 
-            var student = TestStudentFactory.CreateStudent(1);
+            var student = TestStudentFactory.CreateStudentN(1);
 
-            _mock.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(student);
-            _mock.Setup(repo => repo.EnrollmentCourse(It.IsAny<int>(), It.IsAny<CreateRequestEnrolment>())).ReturnsAsync(student);
+            _mock.Setup(repo => repo.GetById(1)).ReturnsAsync(student);
+            _mock.Setup(repo => repo.EnrollmentCourse(It.IsAny<int>(), It.IsAny<Course>())).ReturnsAsync(student);
 
-            var result = await _commandService.EnrollmentCourse(1, createRequest);
+            var result = await _commandService.EnrollmentCourse(1, course);
 
             Assert.NotNull(result);
             Assert.Equal(result, student);

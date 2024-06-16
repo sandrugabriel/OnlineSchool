@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Teste.Courses.Helpers;
 using OnlineSchool.System.Constants;
+using OnlineSchool.Courses.Dto;
 
 namespace Teste.Courses.UnitTests
 {
@@ -29,7 +30,7 @@ namespace Teste.Courses.UnitTests
         [Fact]
         public async Task GetAllCourses_ThrowItemsDoNoeExistException()
         {
-            _mock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(new List<Course>());
+            _mock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(new List<DtoCourseView>());
 
             var exception = await Assert.ThrowsAsync<ItemsDoNotExist>(() => _courseQueryService.GetAll());
 
@@ -53,7 +54,7 @@ namespace Teste.Courses.UnitTests
         [Fact]
         public async Task GetById_ItemDoesNotExist()
         {
-            _mock.Setup(repo => repo.GetByIdAsync(50)).ReturnsAsync((Course)null);
+            _mock.Setup(repo => repo.GetByIdAsync(50)).ReturnsAsync((DtoCourseView)null);
 
             var exception = await Assert.ThrowsAsync<ItemDoesNotExist>(() => _courseQueryService.GetById(50));
 
@@ -77,10 +78,10 @@ namespace Teste.Courses.UnitTests
         [Fact]
         public async Task GetByName_ItemDoesNotExist()
         {
-            _mock.Setup(repo => repo.GetByNameAsync("test")).ReturnsAsync((Course)null);
-            var exception = await Assert.ThrowsAsync<ItemDoesNotExist>(() => _courseQueryService.GetByNameAsync("test"));
+            _mock.Setup(repo => repo.GetByNameAsync("test")).ReturnsAsync((DtoCourseView)null);
+            var exception = await Assert.ThrowsAsync<NotFoundCourse>(() => _courseQueryService.GetByNameAsync("test"));
 
-            Assert.Equal(Constants.ItemDoesNotExist, exception.Message);
+            Assert.Equal(Constants.NotFoundcourse, exception.Message);
         }
 
         [Fact]

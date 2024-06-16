@@ -53,7 +53,7 @@ namespace Teste.Courses.UnitTests
                 Name = "test"
             };
 
-            var course = TestCourseFactory.CreateCourse(50);
+            var course = TestCourseFactory.CreateCourseN(50);
             course.Name = createRequest.Name;
 
             _mock.Setup(repo => repo.Create(It.IsAny<CreateRequestCourse>())).ReturnsAsync(course);
@@ -72,7 +72,7 @@ namespace Teste.Courses.UnitTests
                 Name = "test"
             };
 
-            _mock.Setup(repo => repo.GetByIdAsync(50)).ReturnsAsync((Course)null);
+            _mock.Setup(repo => repo.GetByIdAsync(50)).ReturnsAsync((DtoCourseView)null);
 
             var exception = await Assert.ThrowsAsync<ItemDoesNotExist>(() => _commandService.Update(50, updateRequest));
 
@@ -87,9 +87,9 @@ namespace Teste.Courses.UnitTests
                 Name = ""
             };
 
-            var course = TestCourseFactory.CreateCourse(1);
+            var course = TestCourseFactory.CreateCourseN(1);
             course.Name = updateRequest.Name;
-            _mock.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(course);
+            _mock.Setup(repo => repo.GetById(1)).ReturnsAsync(course);
 
             var exception = await Assert.ThrowsAsync<InvalidName>(() => _commandService.Update(1, updateRequest));
 
@@ -104,16 +104,16 @@ namespace Teste.Courses.UnitTests
                 Name = "test"
             };
 
-            var course = TestCourseFactory.CreateCourse(1);
+            var course = TestCourseFactory.CreateCourseN(1);
             course.Name = updateRequest.Name;
 
-            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(course);
+            _mock.Setup(repo => repo.GetById(It.IsAny<int>())).ReturnsAsync(course);
             _mock.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<UpdateRequestCourse>())).ReturnsAsync(course);
 
             var result = await _commandService.Update(1, updateRequest);
 
             Assert.NotNull(result);
-            Assert.Equal(course, result);
+            Assert.Equal(course.Name, result.Name);
 
         }
 
@@ -132,13 +132,13 @@ namespace Teste.Courses.UnitTests
         public async Task Delete_ValidData()
         {
             var course = TestCourseFactory.CreateCourse(1);
-
-            _mock.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(course);
+            var course1 = TestCourseFactory.CreateCourseN(1);
+            _mock.Setup(repo => repo.GetById(It.IsAny<int>())).ReturnsAsync(course1);
 
             var restul = await _commandService.Delete(1);
 
             Assert.NotNull(restul);
-            Assert.Equal(course, restul);
+            Assert.Equal(course.Name, restul.Name);
         }
 
     }

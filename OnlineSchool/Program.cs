@@ -23,62 +23,68 @@ using OnlineSchool.Students.Services;
 using OnlineSchool.Students.Services.interfaces;
 using OnlineSchool.StudentsCard.Repository;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-
-builder.Services.AddScoped<IRepositoryStudentCard, RepositoryStudentCard>();
-builder.Services.AddScoped<IQueryServiceStudentCard, QueryServiceStudentCards>();
-
-builder.Services.AddScoped<IRepositoryStudent, RepositoryStudent>();
-builder.Services.AddScoped<IQueryServiceStudent, QueryServiceStudents>();
-builder.Services.AddScoped<ICommandServiceStudent, CommandServiceStudents>();
-
-builder.Services.AddScoped<IRepositoryBook, RepositoryBook>();
-builder.Services.AddScoped<IQueryServiceBook, QueryServiceBook>();
-
-builder.Services.AddScoped<IRepositoryCourse, RepositoryCourse>();
-builder.Services.AddScoped<IQueryServiceCourse, QueryServiceCourse>();
-builder.Services.AddScoped<ICommandServiceCourse, CommandServiceCourse>();
-
-builder.Services.AddScoped<IRepositoryEnrolment, RepositoryEnrolment>();
-builder.Services.AddScoped<IQueryServiceEnrolment, QueryServiceEnrolment>();
-
-builder.Services.AddDbContext<AppDbContext>(op => op.UseMySql(builder.Configuration.GetConnectionString("Default")!,
-    new MySqlServerVersion(new Version(8, 0, 21))));
-
-builder.Services.AddFluentMigratorCore()
-    .ConfigureRunner(rb => rb.AddMySql5().WithGlobalConnectionString(builder.Configuration.GetConnectionString("Default"))
-    .ScanIn(typeof(Program).Assembly).For.Migrations())
-    .AddLogging(lb => lb.AddFluentMigratorConsole());
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+
+        builder.Services.AddScoped<IRepositoryStudentCard, RepositoryStudentCard>();
+        builder.Services.AddScoped<IQueryServiceStudentCard, QueryServiceStudentCards>();
+
+        builder.Services.AddScoped<IRepositoryStudent, RepositoryStudent>();
+        builder.Services.AddScoped<IQueryServiceStudent, QueryServiceStudents>();
+        builder.Services.AddScoped<ICommandServiceStudent, CommandServiceStudents>();
+
+        builder.Services.AddScoped<IRepositoryBook, RepositoryBook>();
+        builder.Services.AddScoped<IQueryServiceBook, QueryServiceBook>();
+
+        builder.Services.AddScoped<IRepositoryCourse, RepositoryCourse>();
+        builder.Services.AddScoped<IQueryServiceCourse, QueryServiceCourse>();
+        builder.Services.AddScoped<ICommandServiceCourse, CommandServiceCourse>();
+
+        builder.Services.AddScoped<IRepositoryEnrolment, RepositoryEnrolment>();
+        builder.Services.AddScoped<IQueryServiceEnrolment, QueryServiceEnrolment>();
+
+        builder.Services.AddDbContext<AppDbContext>(op => op.UseMySql(builder.Configuration.GetConnectionString("Default")!,
+            new MySqlServerVersion(new Version(8, 0, 21))));
+
+        builder.Services.AddFluentMigratorCore()
+            .ConfigureRunner(rb => rb.AddMySql5().WithGlobalConnectionString(builder.Configuration.GetConnectionString("Default"))
+            .ScanIn(typeof(Program).Assembly).For.Migrations())
+            .AddLogging(lb => lb.AddFluentMigratorConsole());
+
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+            runner.MigrateUp();
+        }
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-    runner.MigrateUp();
-}
-
-    app.Run();
